@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión - Panel Administrador</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Agregar íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center justify-center p-4">
@@ -79,12 +78,10 @@
       </div>
     </form>
 
-    <!-- Mensaje de error -->
     <div id="errorMessage" class="hidden mt-4 p-3 rounded bg-red-100 text-red-700 text-sm"></div>
   </div>
 
   <script>
-    // Validar si ya está autenticado
     if (localStorage.getItem('auth') === 'true') {
       window.location.href = 'admin-panel.html';
     }
@@ -107,8 +104,6 @@
         return;
       }
 
-      // Aquí deberías hacer la validación con tu backend
-      // Por ahora, simulamos una autenticación básica
       const admins = [
         { email: 'admin1@example.com', password: 'admin123', name: 'Dr. Juan García' },
         { email: 'admin2@example.com', password: 'admin123', name: 'Dra. María López' },

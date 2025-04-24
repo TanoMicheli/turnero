@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clínica Dental - Sistema de Turnos</title>
+  <link href="css/output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="js/data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .mobile-menu {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+
+    .service-card {
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .parallax-bg {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .glass-effect {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease;
+    }
+
+    .scroll-reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nav-link {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: currentColor;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .checkmark {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: block;
+      stroke-width: 2;
+      stroke: #4BB543;
+      stroke-miterlimit: 10;
+      box-shadow: inset 0px 0px 0px #4BB543;
+      animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+      position: relative;
+      margin: 0 auto 20px;
+    }
+
+    .checkmark__circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 2;
+      stroke-miterlimit: 10;
+      stroke: #4BB543;
+      fill: none;
+      animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .checkmark__check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes stroke {
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes scale {
+      0%, 100% {
+        transform: none;
+      }
+      50% {
+        transform: scale3d(1.1, 1.1, 1);
+      }
+    }
+
+    @keyframes fill {
+      100% {
+        box-shadow: inset 0px 0px 0px 30px #4BB543;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+  <div id="mobileMenu" class="fixed inset-0 bg-blue-900/95 z-50 mobile-menu hidden">
+    <div class="flex justify-end p-4">
+      <button onclick="toggleMobileMenu()" class="text-white text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav class="flex flex-col items-center space-y-8 mt-16">
+      <a href="#servicios" onclick="toggleMobileMenu()" class="text-white text-xl hover:text-blue-200 transition-colors">Servicios</a>
+      <a href="#tecnologia" onclick="toggleMobileMenu()" class="text-white text-xl hover:text-blue-200 transition-colors">Tecnología</a>
+      <a href="#equipo" onclick="toggleMobileMenu()" class="text-white text-xl hover:text-blue-200 transition-colors">Equipo</a>
+      <a href="#contacto" onclick="toggleMobileMenu()" class="text-white text-xl hover:text-blue-200 transition-colors">Contacto</a>
+      <a href="admin-login.html" class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transform hover:scale-105 transition duration-300">
+        Portal Odontológico
+      </a>
+    </nav>
+  </div>
+
+  <div class="relative min-h-screen bg-gradient-to-r from-blue-600 to-cyan-500 overflow-hidden">
+    <div class="absolute inset-0 bg-pattern opacity-10"></div>
+    <header class="relative z-20">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <div class="flex items-center space-x-2">
+            <i class="fas fa-tooth text-white text-3xl"></i>
+            <h1 class="text-2xl font-bold text-white">DentalCare</h1>
+          </div>
+          <div class="hidden md:flex space-x-8">
+            <a href="#servicios" class="nav-link text-white hover:text-blue-200 transition-colors">Servicios</a>
+            <a href="#tecnologia" class="nav-link text-white hover:text-blue-200 transition-colors">Tecnología</a>
+            <a href="#equipo" class="nav-link text-white hover:text-blue-200 transition-colors">Equipo</a>
+            <a href="#contacto" class="nav-link text-white hover:text-blue-200 transition-colors">Contacto</a>
+            <a href="admin-login.html" class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transform hover:scale-105 transition duration-300">
+              Portal Odontológico
+            </a>
+          </div>
+          <button class="md:hidden text-white text-2xl" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-32">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div class="text-white space-y-6 md:space-y-8 text-center md:text-left">
+          <h2 class="text-3xl md:text-5xl font-bold leading-tight animate-fade-in">
+            Sonrisas saludables, vidas felices
+          </h2>
+          <p class="text-lg md:text-xl text-blue-100">
+            Tecnología de vanguardia y profesionales expertos para el cuidado integral de tu salud dental.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <a href="#reservar" class="bg-white text-blue-600 px-6 py-3 rounded-full text-base md:text-lg font-semibold hover:bg-blue-50 transform hover:scale-105 transition duration-300 flex items-center justify-center">
+              <i class="fas fa-calendar-plus mr-2"></i>
+              Reservar cita
+            </a>
+            <a href="#servicios" class="border-2 border-white text-white px-6 py-3 rounded-full text-base md:text-lg font-semibold hover:bg-white hover:text-blue-600 transform hover:scale-105 transition duration-300 flex items-center justify-center">
+              Conocer más
+            </a>
+          </div>
+        </div>
+        <div class="relative">
+          <img src="https://img.freepik.com/free-photo/young-female-doctor-dentist-white-coat-sitting-dental-office-smiling-camera-while-senior-male-patient-sitting-dental-chair_342744-1389.jpg" 
+               alt="Dentista sonriente con paciente" 
+               class="w-full h-[400px] md:h-[600px] rounded-2xl shadow-2xl transform hover:scale-105 transition duration-500 object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-cyan-500/20 rounded-2xl"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#f9fafb" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <section id="servicios" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-16">Nuestros Servicios</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-teeth text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Odontología General</h3>
+          <p class="text-gray-600 mb-6">Cuidado dental integral con tecnología de última generación.</p>
+          <ul class="space-y-4">
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Limpieza dental profesional</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Empastes y restauraciones</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Tratamientos de conducto</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-tooth text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Implantes Dentales</h3>
+          <p class="text-gray-600 mb-6">Recupera tu sonrisa con implantes de última generación.</p>
+          <ul class="space-y-4">
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Implantes de titanio</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Coronas personalizadas</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Puentes dentales</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-smile text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Estética Dental</h3>
+          <p class="text-gray-600 mb-6">Transforma tu sonrisa con tratamientos personalizados.</p>
+          <ul class="space-y-4">
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Blanqueamiento profesional</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Carillas de porcelana</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Diseño digital de sonrisa</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-teeth text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Ortodoncia Invisible</h3>
+          <p class="text-gray-600 mb-6">Alineadores transparentes personalizados para una sonrisa perfecta.</p>
+          <ul class="space-y-4">
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Alineadores removibles</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Tratamiento discreto</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Resultados rápidos</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-baby-smile text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Odontopediatría</h3>
+          <p class="text-gray-600 mb-6">Cuidado dental especializado para los más pequeños.</p>
+          <ul class="space-y-4">
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Ambiente amigable</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Prevención temprana</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Educación dental</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-tooth text-2xl"></i>
+          </div>
+          <h3 class="text-2xl font-semibold mb-4">Periodoncia</h3>
+          <p class="text-gray-600 mb-6">Tratamiento especializado de las encías.</p>
+          <ul class="space-y-4">
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Tratamiento de gingivitis</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Cirugía periodontal</span>
+            </li>
+            <li class="flex items-center text-gray-600">
+              <i class="fas fa-check text-green-500 mr-3"></i>
+              <span>Mantenimiento periodontal</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tecnologia" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-center mb-16">Tecnología de Vanguardia</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Radiografía Digital 3D</h3>
+            <p class="text-gray-600">Diagnóstico preciso y planificación detallada de tratamientos.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Escáner Intraoral</h3>
+            <p class="text-gray-600">Impresiones digitales para mayor precisión y comodidad.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Diseño Digital de Sonrisa</h3>
+            <p class="text-gray-600">Visualiza los resultados antes del tratamiento.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Microscopio Dental Digital</h3>
+            <p class="text-gray-600">Máxima precisión en tratamientos de conducto y microcirugías.</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-2">Impresora 3D Dental</h3>
+            <p class="text-gray-600">Fabricación de prótesis y guías quirúrgicas personalizadas.</p>
+          </div>
+        </div>
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800" 
+               alt="Tecnología dental" 
+               class="rounded-lg shadow-2xl transform hover:rotate-2 transition duration-500">
+          <div class="absolute -bottom-4 -right-4 bg-blue-600 text-white p-4 rounded-lg">
+            <p class="text-sm font-semibold">Última tecnología en diagnóstico y tratamiento</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reservar" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div class="bg-gradient-to-br from-blue-600 to-cyan-500 p-8 rounded-2xl text-white">
+          <h2 class="text-3xl font-bold mb-6">Reserva tu Consulta</h2>
+          <form id="formTurno" onsubmit="reservarTurno(event)" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block mb-1 text-sm">Nombre completo</label>
+                <input type="text" id="nombre" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required>
+              </div>
+              <div>
+                <label class="block mb-1 text-sm">DNI</label>
+                <input type="text" id="dni" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block mb-1 text-sm">Email</label>
+                <input type="email" id="email" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required>
+              </div>
+              <div>
+                <label class="block mb-1 text-sm">Teléfono</label>
+                <input type="tel" id="telefono" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required>
+              </div>
+            </div>
+            <div>
+              <label class="block mb-1 text-sm">Obra Social</label>
+              <select id="obraSocial" onchange="actualizarPlanes()" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                <option value="">Sin obra social</option>
+              </select>
+            </div>
+            <div id="planContainer" class="hidden">
+              <label class="block mb-1 text-sm">Plan</label>
+              <select id="plan" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                <option value="">Seleccionar plan...</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block mb-1 text-sm">Fecha</label>
+                <input type="date" id="fecha" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required>
+              </div>
+              <div>
+                <label class="block mb-1 text-sm">Hora</label>
+                <select id="hora" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-black focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block mb-1 text-sm">Motivo de la consulta</label>
+              <textarea id="motivo" rows="3" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required></textarea>
+            </div>
+            <button type="submit" class="w-full bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transform hover:scale-105 transition duration-300 flex items-center justify-center">
+              <i class="fas fa-calendar-check mr-2"></i>
+              Confirmar Turno
+            </button>
+          </form>
+        </div>
+        <div class="space-y-8">
+          <div class="bg-gray-50 p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-4 flex items-center">
+              <i class="fas fa-clock text-blue-600 mr-2"></i>
+              Horarios de Atención
+            </h3>
+            <div class="space-y-2" id="horariosAtencion"></div>
+          </div>
+          <div class="bg-gray-50 p-6 rounded-xl shadow-lg transform hover:scale-105 transition duration-300">
+            <h3 class="text-xl font-semibold mb-4 flex items-center">
+              <i class="fas fa-hospital text-blue-600 mr-2"></i>
+              Obras Sociales
+            </h3>
+            <div class="grid grid-cols-2 gap-4" id="obrasSocialesList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">DentalCare</h3>
+          <p class="text-gray-400">Expertos en salud dental desde 1990</p>
+          <div class="mt-4 flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Servicios</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Odontología General</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Implantes Dentales</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Ortodoncia</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Estética Dental</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Enlaces Útiles</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog Dental</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Emergencias</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Política de Privacidad</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contacto</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt w-6"></i>
+              Av. Ejemplo 1234, Ciudad
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone w-6"></i>
+              +54 11 1234-5678
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope w-6"></i>
+              contacto@dentalcare.com
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>© 2024 DentalCare. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="modalConfirmacion" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all duration-300 scale-95 opacity-0">
+      <div class="text-center">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <h3 class="text-2xl font-bold mb-2">¡Turno Confirmado!</h3>
+        <p class="text-gray-600 mb-6">Te enviaremos un email con los detalles de tu turno y recordatorios previos a la cita.</p>
+        <button onclick="cerrarModal()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function scrollToSection(event, sectionId) {
+      event.preventDefault();
+      const section = document.querySelector(sectionId);
+      const headerOffset = 80;
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (!mobileMenu.classList.contains('hidden')) {
+        toggleMobileMenu();
+      }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+      setTimeout(() => {
+        menu.classList.toggle('active');
+      }, 10);
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          if (this.getAttribute('href').length > 1) {
+            scrollToSection(e, this.getAttribute('href'));
+          }
+        });
+      });
+
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('fecha').min = tomorrow.toISOString().split('T')[0];
+
+      cargarObrasSociales();
+      mostrarObrasSocialesDisponibles();
+      cargarHorarios();
+      cargarHorasDisponibles();
+
+      gsap.from(".service-card", {
+        scrollTrigger: {
+          trigger: "#servicios",
+          start: "top center",
+          toggleActions: "play none none reverse"
+        },
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2
+      });
+
+      gsap.from("#tecnologia .bg-white", {
+        scrollTrigger: {
+          trigger: "#tecnologia",
+          start: "top center",
+          toggleActions: "play none none reverse"
+        },
+        x: -100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2
+      });
+
+      const modal = document.getElementById('modalConfirmacion');
+      const modalContent = modal.querySelector('.bg-white');
+
+      function showModal() {
+        modal.classList.remove('hidden');
+        gsap.to(modalContent, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.3
+        });
+      }
+
+      function hideModal() {
+        gsap.to(modalContent, {
+          scale: 0.95,
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => modal.classList.add('hidden')
+        });
+      }
+
+      window.showModal = showModal;
+      window.hideModal = hideModal;
+    });
+
+    function cargarObrasSociales() {
+      const select = document.getElementById('obraSocial');
+      select.innerHTML = '<option value="">Sin obra social</option>';
+      
+      getObrasSociales().forEach(os => {
+        const option = document.createElement('option');
+        option.value = os.nombre;
+        option.textContent = os.nombre;
+        select.appendChild(option);
+      });
+    }
+
+    function actualizarPlanes() {
+      const obraSocial = document.getElementById('obraSocial').value;
+      const planContainer = document.getElementById('planContainer');
+      const planSelect = document.getElementById('plan');
+      
+      if (obraSocial) {
+        const planes = getPlanesObraSocial(obraSocial);
+        planSelect.innerHTML = '<option value="">Seleccionar plan...</option>';
+        planes.forEach(plan => {
+          const option = document.createElement('option');
+          option.value = plan;
+          option.textContent = `Plan ${plan}`;
+          planSelect.appendChild(option);
+        });
+        
+        planContainer.classList.remove('hidden');
+        gsap.from(planContainer, {
+          height: 0,
+          opacity: 0,
+          duration: 0.3
+        });
+      } else {
+        gsap.to(planContainer, {
+          height: 0,
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => planContainer.classList.add('hidden')
+        });
+      }
+    }
+
+    function mostrarObrasSocialesDisponibles() {
+      const container = document.getElementById('obrasSocialesList');
+      getObrasSociales().forEach(os => {
+        const div = document.createElement('div');
+        div.className = 'flex items-center space-x-2';
+        div.innerHTML = `
+          <i class="fas fa-check-circle text-green-500"></i>
+          <span>${os.nombre}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function cargarHorarios() {
+      const container = document.getElementById('horariosAtencion');
+      const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+      
+      dias.forEach(dia => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center py-2 border-b border-gray-200';
+        div.innerHTML = `
+          <span class="font-medium">${dia}</span>
+          <span>9:00 - 19:00</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function cargarHorasDisponibles() {
+      const select = document.getElementById('hora');
+      select.innerHTML = '<option value="">Seleccionar hora...</option>';
+      
+      for (let hora = 9; hora < 19; hora++) {
+        for (let minuto = 0; minuto < 60; minuto += 30) {
+          const horaFormateada = `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`;
+          const option = document.createElement('option');
+          option.value = horaFormateada;
+          option.textContent = horaFormateada;
+          select.appendChild(option);
+        }
+      }
+    }
+
+    function reservarTurno(event) {
+      event.preventDefault();
+      
+      const camposRequeridos = ['nombre', 'dni', 'telefono', 'email', 'fecha', 'hora', 'motivo'];
+      let hayErrores = false;
+
+      camposRequeridos.forEach(campo => {
+        const elemento = document.getElementById(campo);
+        if (!elemento.value.trim()) {
+          elemento.classList.add('border-red-500');
+          hayErrores = true;
+        } else {
+          elemento.classList.remove('border-red-500');
+        }
+      });
+
+      if (hayErrores) {
+        mostrarMensajeError('Por favor, complete todos los campos requeridos');
+        return;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(document.getElementById('email').value)) {
+        document.getElementById('email').classList.add('border-red-500');
+        mostrarMensajeError('Por favor, ingrese un email válido');
+        return;
+      }
+
+      const dniRegex = /^\d{7,8}$/;
+      if (!dniRegex.test(document.getElementById('dni').value)) {
+        document.getElementById('dni').classList.add('border-red-500');
+        mostrarMensajeError('Por favor, ingrese un DNI válido');
+        return;
+      }
+
+      const paciente = {
+        nombre: document.getElementById('nombre').value.trim(),
+        dni: document.getElementById('dni').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        obraSocial: document.getElementById('obraSocial').value ? {
+          nombre: document.getElementById('obraSocial').value,
+          plan: document.getElementById('plan').value,
+          numeroSocio: document.getElementById('numeroSocio')?.value
+        } : null
+      };
+
+      const turno = {
+        fecha: document.getElementById('fecha').value,
+        hora: document.getElementById('hora').value,
+        motivo: document.getElementById('motivo').value.trim(),
+        estado: 'pendiente',
+        fechaCreacion: new Date().toISOString()
+      };
+
+      localStorage.setItem(`turno_${Date.now()}`, JSON.stringify({ paciente, turno }));
+
+      const modalContent = document.querySelector('#modalConfirmacion .bg-white');
+      modalContent.innerHTML = `
+        <div class="p-6">
+          <h3 class="text-xl font-semibold mb-4">¡Turno Reservado con Éxito!</h3>
+          <p class="mb-2">Paciente: ${paciente.nombre}</p>
+          <p class="mb-2">Fecha: ${new Date(turno.fecha).toLocaleDateString()}</p>
+          <p class="mb-4">Hora: ${turno.hora}</p>
+          <p class="text-sm text-gray-600 mb-4">Recibirás un email de confirmación en breve.</p>
+          <button onclick="cerrarModal()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">
+            Aceptar
+          </button>
+        </div>
+      `;
+      showModal();
+    }
+
+    function mostrarMensajeError(mensaje) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-y-[-100%]';
+      errorDiv.textContent = mensaje;
+      document.body.appendChild(errorDiv);
+
+      gsap.to(errorDiv, {
+        y: 0,
+        duration: 0.3,
+        ease: 'power2.out'
+      });
+
+      setTimeout(() => {
+        gsap.to(errorDiv, {
+          y: -100,
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power2.in',
+          onComplete: () => errorDiv.remove()
+        });
+      }, 3000);
+    }
+
+    function cerrarModal() {
+      hideModal();
+      document.getElementById('formTurno').reset();
+      
+      document.querySelectorAll('.border-red-500').forEach(elemento => {
+        elemento.classList.remove('border-red-500');
+      });
+    }
+
+    document.querySelectorAll('#formTurno input, #formTurno select, #formTurno textarea').forEach(elemento => {
+      elemento.addEventListener('input', function() {
+        if (this.value.trim()) {
+          this.classList.remove('border-red-500');
+        }
+      });
+    });
+
+    document.getElementById('fecha').addEventListener('input', function() {
+      const fechaSeleccionada = new Date(this.value);
+      const hoy = new Date();
+      
+      if (fechaSeleccionada < hoy) {
+        this.value = hoy.toISOString().split('T')[0];
+        mostrarMensajeError('No se pueden seleccionar fechas pasadas');
+      }
+    });
+  </script>
+</body>
+</html>

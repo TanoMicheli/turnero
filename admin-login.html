@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión - Panel Administrador</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Agregar íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
+    <div class="text-center mb-8">
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">Panel del Profesional</h1>
+      <p class="text-gray-600">Ingresa tus credenciales para continuar</p>
+    </div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <input 
+            type="email" 
+            id="email" 
+            required
+            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="ejemplo@correo.com"
+          >
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <i class="fas fa-lock"></i>
+          </span>
+          <input 
+            type="password" 
+            id="password" 
+            required
+            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="••••••••"
+          >
+          <button 
+            type="button"
+            onclick="togglePassword()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
+            <i class="fas fa-eye" id="toggleIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="remember" 
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          >
+          <label for="remember" class="ml-2 block text-sm text-gray-700">
+            Recordarme
+          </label>
+        </div>
+        <a href="#" class="text-sm text-blue-600 hover:text-blue-800">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <div>
+        <button 
+          type="submit" 
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Iniciar Sesión
+        </button>
+      </div>
+    </form>
+
+    <!-- Mensaje de error -->
+    <div id="errorMessage" class="hidden mt-4 p-3 rounded bg-red-100 text-red-700 text-sm"></div>
+  </div>
+
+  <script>
+    // Validar si ya está autenticado
+    if (localStorage.getItem('auth') === 'true') {
+      window.location.href = 'admin-panel.html';
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const remember = document.getElementById('remember').checked;
+      const errorMessage = document.getElementById('errorMessage');
+
+      // Validaciones básicas
+      if (!email || !password) {
+        showError('Por favor, completa todos los campos');
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showError('Por favor, ingresa un correo electrónico válido');
+        return;
+      }
+
+      // Aquí deberías hacer la validación con tu backend
+      // Por ahora, simulamos una autenticación básica
+      const admins = [
+        { email: 'admin1@example.com', password: 'admin123', name: 'Dr. Juan García' },
+        { email: 'admin2@example.com', password: 'admin123', name: 'Dra. María López' },
+        { email: 'admin3@example.com', password: 'admin123', name: 'Dr. Carlos Rodríguez' }
+      ];
+
+      const admin = admins.find(a => a.email === email && a.password === password);
+      
+      if (admin) {
+        localStorage.setItem('auth', 'true');
+        localStorage.setItem('adminName', admin.name);
+        if (remember) {
+          localStorage.setItem('remember', 'true');
+        }
+        window.location.href = 'admin-panel.html';
+      } else {
+        showError('Credenciales incorrectas');
+      }
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorMessage.classList.remove('hidden');
+      setTimeout(() => {
+        errorMessage.classList.add('hidden');
+      }, 3000);
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggleIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+  </script>
+</body>
+</html>

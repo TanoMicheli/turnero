@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Endpoints de Turnos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #resultados {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prueba de Endpoints de Turnos</h1>
+
+    <div class="section">
+        <h2>1. Obtener Turnos Disponibles por Fecha</h2>
+        <input type="date" id="fecha" value="">
+        <button onclick="obtenerTurnosDisponibles()">Consultar</button>
+    </div>
+
+    <div class="section">
+        <h2>2. Obtener Próximos Turnos Disponibles</h2>
+        <input type="number" id="dias" value="7" min="1" max="30" placeholder="Número de días">
+        <button onclick="obtenerProximosTurnos()">Consultar</button>
+    </div>
+
+    <div class="section">
+        <h2>3. Verificar Disponibilidad</h2>
+        <input type="date" id="fechaVerificar" value="">
+        <input type="time" id="hora" value="09:00" step="1800">
+        <button onclick="verificarDisponibilidad()">Verificar</button>
+    </div>
+
+    <div class="section">
+        <h2>4. Crear Nuevo Turno</h2>
+        <input type="date" id="fechaTurno" value="">
+        <input type="time" id="horaTurno" value="09:00" step="1800">
+        <input type="number" id="pacienteId" placeholder="ID del paciente" value="1">
+        <input type="text" id="motivo" placeholder="Motivo de la consulta">
+        <button onclick="crearTurno()">Crear Turno</button>
+    </div>
+
+    <div id="resultados"></div>
+
+    <script>
+        // Configurar la fecha de hoy como valor por defecto en los inputs de fecha
+        const hoy = new Date().toISOString().split('T')[0];
+        document.getElementById('fecha').value = hoy;
+        document.getElementById('fechaVerificar').value = hoy;
+        document.getElementById('fechaTurno').value = hoy;
+
+        function mostrarResultado(data, error = false) {
+            const resultadosDiv = document.getElementById('resultados');
+            resultadosDiv.className = error ? 'error' : '';
+            resultadosDiv.textContent = typeof data === 'object' ? 
+                JSON.stringify(data, null, 2) : data;
+        }
+
+        async function fetchAPI(url, options = {}) {
+            try {
+                const response = await fetch(url, options);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Error en la petición');
+                mostrarResultado(data);
+            } catch (error) {
+                mostrarResultado(error.message, true);
+            }
+        }
+
+        function obtenerTurnosDisponibles() {
+            const fecha = document.getElementById('fecha').value;
+            fetchAPI(`/api/turnos/disponibles/${fecha}`);
+        }
+
+        function obtenerProximosTurnos() {
+            const dias = document.getElementById('dias').value;
+            fetchAPI(`/api/turnos/proximos-disponibles?dias=${dias}`);
+        }
+
+        function verificarDisponibilidad() {
+            const fecha = document.getElementById('fechaVerificar').value;
+            const hora = document.getElementById('hora').value;
+            fetchAPI(`/api/turnos/verificar-disponibilidad?fecha=${fecha}&hora=${hora}`);
+        }
+
+        function crearTurno() {
+            const turno = {
+                pacienteId: parseInt(document.getElementById('pacienteId').value),
+                fecha: document.getElementById('fechaTurno').value,
+                hora: document.getElementById('horaTurno').value,
+                motivo: document.getElementById('motivo').value
+            };
+
+            fetchAPI('/api/turnos/crear', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(turno)
+            });
+        }
+    </script>
+</body>
+</html> 

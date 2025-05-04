@@ -17,7 +17,7 @@ html {
 }
 
 .service-card {
-  transition: all 0.5s ease;
+  transition: all 0s ease;
   transform-style: preserve-3d;
   perspective: 1000px;
 }

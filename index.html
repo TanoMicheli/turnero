@@ -34,11 +34,18 @@
     }
 
     .service-card {
-      transition: all 0.3s ease;
+      opacity: 1;
+      visibility: visible;
+      height: auto;
+      min-height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .service-card:hover {
       transform: translateY(-10px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
     .parallax-bg {
@@ -135,6 +142,25 @@
         box-shadow: inset 0px 0px 0px 30px #4BB543;
       }
     }
+
+    #servicios .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    @media (min-width: 768px) {
+      #servicios .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      #servicios .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans">
@@ -157,11 +183,12 @@
 
   <div class="relative min-h-screen bg-gradient-to-r from-blue-600 to-cyan-500 overflow-hidden">
     <div class="absolute inset-0 bg-pattern opacity-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-cyan-500/20"></div>
     <header class="relative z-20">
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
           <div class="flex items-center space-x-2">
-            <i class="fas fa-tooth text-white text-3xl"></i>
+            <i class="fas fa-tooth text-white text-3xl animate-pulse"></i>
             <h1 class="text-2xl font-bold text-white">DentalCare</h1>
           </div>
           <div class="hidden md:flex space-x-8">
@@ -169,7 +196,7 @@
             <a href="#tecnologia" class="nav-link text-white hover:text-blue-200 transition-colors">Tecnología</a>
             <a href="#equipo" class="nav-link text-white hover:text-blue-200 transition-colors">Equipo</a>
             <a href="#contacto" class="nav-link text-white hover:text-blue-200 transition-colors">Contacto</a>
-            <a href="admin-login.html" class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transform hover:scale-105 transition duration-300">
+            <a href="admin-login.html" class="bg-white text-blue-600 px-6 py-2 rounded-full hover:bg-blue-50 transform hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl">
               Portal Odontológico
             </a>
           </div>
@@ -183,24 +210,40 @@
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-32">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div class="text-white space-y-6 md:space-y-8 text-center md:text-left">
-          <h2 class="text-3xl md:text-5xl font-bold leading-tight animate-fade-in">
-            Sonrisas saludables, vidas felices
+          <h2 class="text-4xl md:text-6xl font-bold leading-tight animate-fade-in">
+            Sonrisas saludables,<br>vidas felices
           </h2>
-          <p class="text-lg md:text-xl text-blue-100">
+          <p class="text-lg md:text-xl text-blue-100 leading-relaxed">
             Tecnología de vanguardia y profesionales expertos para el cuidado integral de tu salud dental.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <a href="#reservar" class="bg-white text-blue-600 px-6 py-3 rounded-full text-base md:text-lg font-semibold hover:bg-blue-50 transform hover:scale-105 transition duration-300 flex items-center justify-center">
-              <i class="fas fa-calendar-plus mr-2"></i>
-              Reservar cita
+            <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-4 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+              <span class="relative z-10 flex items-center justify-center">
+                <i class="fas fa-calendar-plus mr-2 text-lg"></i>
+                Reservar cita
+              </span>
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
-            <a href="#servicios" class="border-2 border-white text-white px-6 py-3 rounded-full text-base md:text-lg font-semibold hover:bg-white hover:text-blue-600 transform hover:scale-105 transition duration-300 flex items-center justify-center">
-              Conocer más
+            <a href="#servicios" class="group relative overflow-hidden border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold hover:text-white transition-all duration-300">
+              <span class="relative z-10 flex items-center justify-center">
+                Conocer más
+              </span>
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
+          </div>
+          <div class="flex items-center justify-center md:justify-start space-x-4 pt-4">
+            <div class="flex items-center">
+              <i class="fas fa-check-circle text-green-400 mr-2"></i>
+              <span class="text-sm">Primera consulta gratis</span>
+            </div>
+            <div class="flex items-center">
+              <i class="fas fa-check-circle text-green-400 mr-2"></i>
+              <span class="text-sm">Atención de emergencia</span>
+            </div>
           </div>
         </div>
         <div class="relative">
-          <img src="https://img.freepik.com/free-photo/young-female-doctor-dentist-white-coat-sitting-dental-office-smiling-camera-while-senior-male-patient-sitting-dental-chair_342744-1389.jpg" 
+          <img src="/img/hero.jpg" 
                alt="Dentista sonriente con paciente" 
                class="w-full h-[400px] md:h-[600px] rounded-2xl shadow-2xl transform hover:scale-105 transition duration-500 object-cover">
           <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-cyan-500/20 rounded-2xl"></div>
@@ -215,178 +258,312 @@
     </div>
   </div>
 
-  <section id="servicios" class="py-20 bg-white">
+  <section id="servicios" class="py-20 bg-gradient-to-b from-white to-gray-50">
     <div class="container mx-auto px-4">
-      <h2 class="text-4xl font-bold text-center mb-16">Nuestros Servicios</h2>
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Nuestros Servicios</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-lg">Ofrecemos una amplia gama de tratamientos dentales con tecnología de última generación y profesionales altamente capacitados.</p>
+      </div>
+      
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-teeth text-2xl"></i>
+        <!-- Odontología General -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative p-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-teeth text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4 text-center">Odontología General</h3>
+            <p class="text-white/90 mb-6 text-center">Cuidado dental integral con tecnología de última generación.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Limpieza dental profesional</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Empastes y restauraciones</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Tratamientos de conducto</span>
+              </li>
+            </ul>
+            <div class="text-center">
+              <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
+                <span class="relative z-10 flex items-center justify-center">
+                  <i class="fas fa-calendar-plus mr-2"></i>
+                  Reservar cita
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
           </div>
-          <h3 class="text-2xl font-semibold mb-4">Odontología General</h3>
-          <p class="text-gray-600 mb-6">Cuidado dental integral con tecnología de última generación.</p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Limpieza dental profesional</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Empastes y restauraciones</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Tratamientos de conducto</span>
-            </li>
-          </ul>
         </div>
 
-        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-tooth text-2xl"></i>
+        <!-- Implantes Dentales -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative p-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-tooth text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4 text-center">Implantes Dentales</h3>
+            <p class="text-white/90 mb-6 text-center">Recupera tu sonrisa con implantes de última generación.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Implantes de titanio</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Coronas personalizadas</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Puentes dentales</span>
+              </li>
+            </ul>
+            <div class="text-center">
+              <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
+                <span class="relative z-10 flex items-center justify-center">
+                  <i class="fas fa-calendar-plus mr-2"></i>
+                  Reservar cita
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
           </div>
-          <h3 class="text-2xl font-semibold mb-4">Implantes Dentales</h3>
-          <p class="text-gray-600 mb-6">Recupera tu sonrisa con implantes de última generación.</p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Implantes de titanio</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Coronas personalizadas</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Puentes dentales</span>
-            </li>
-          </ul>
         </div>
 
-        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-smile text-2xl"></i>
+        <!-- Estética Dental -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative p-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-smile text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4 text-center">Estética Dental</h3>
+            <p class="text-white/90 mb-6 text-center">Transforma tu sonrisa con tratamientos personalizados.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Blanqueamiento profesional</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Carillas de porcelana</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Diseño digital de sonrisa</span>
+              </li>
+            </ul>
+            <div class="text-center">
+              <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
+                <span class="relative z-10 flex items-center justify-center">
+                  <i class="fas fa-calendar-plus mr-2"></i>
+                  Reservar cita
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
           </div>
-          <h3 class="text-2xl font-semibold mb-4">Estética Dental</h3>
-          <p class="text-gray-600 mb-6">Transforma tu sonrisa con tratamientos personalizados.</p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Blanqueamiento profesional</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Carillas de porcelana</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Diseño digital de sonrisa</span>
-            </li>
-          </ul>
         </div>
 
-        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-teeth text-2xl"></i>
+        <!-- Ortodoncia Invisible -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative p-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-teeth text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4 text-center">Ortodoncia Invisible</h3>
+            <p class="text-white/90 mb-6 text-center">Alineadores transparentes personalizados para una sonrisa perfecta.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Alineadores removibles</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Tratamiento discreto</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Resultados rápidos</span>
+              </li>
+            </ul>
+            <div class="text-center">
+              <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
+                <span class="relative z-10 flex items-center justify-center">
+                  <i class="fas fa-calendar-plus mr-2"></i>
+                  Reservar cita
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
           </div>
-          <h3 class="text-2xl font-semibold mb-4">Ortodoncia Invisible</h3>
-          <p class="text-gray-600 mb-6">Alineadores transparentes personalizados para una sonrisa perfecta.</p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Alineadores removibles</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Tratamiento discreto</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Resultados rápidos</span>
-            </li>
-          </ul>
         </div>
 
-        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-baby-smile text-2xl"></i>
+        <!-- Odontopediatría -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative p-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-baby-smile text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4 text-center">Odontopediatría</h3>
+            <p class="text-white/90 mb-6 text-center">Cuidado dental especializado para los más pequeños.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Ambiente amigable</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Prevención temprana</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Educación dental</span>
+              </li>
+            </ul>
+            <div class="text-center">
+              <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
+                <span class="relative z-10 flex items-center justify-center">
+                  <i class="fas fa-calendar-plus mr-2"></i>
+                  Reservar cita
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
           </div>
-          <h3 class="text-2xl font-semibold mb-4">Odontopediatría</h3>
-          <p class="text-gray-600 mb-6">Cuidado dental especializado para los más pequeños.</p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Ambiente amigable</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Prevención temprana</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Educación dental</span>
-            </li>
-          </ul>
         </div>
 
-        <div class="service-card bg-white rounded-xl shadow-lg p-8 hover:shadow-xl">
-          <div class="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-tooth text-2xl"></i>
+        <!-- Periodoncia -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="relative p-8">
+            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 mx-auto transform group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-tooth text-3xl text-blue-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-4 text-center">Periodoncia</h3>
+            <p class="text-white/90 mb-6 text-center">Tratamiento especializado de las encías.</p>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Tratamiento de gingivitis</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Cirugía periodontal</span>
+              </li>
+              <li class="flex items-center text-white/90">
+                <i class="fas fa-check-circle text-green-300 mr-3"></i>
+                <span>Mantenimiento periodontal</span>
+              </li>
+            </ul>
+            <div class="text-center">
+              <a href="#reservar" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-3 rounded-full text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
+                <span class="relative z-10 flex items-center justify-center">
+                  <i class="fas fa-calendar-plus mr-2"></i>
+                  Reservar cita
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </a>
+            </div>
           </div>
-          <h3 class="text-2xl font-semibold mb-4">Periodoncia</h3>
-          <p class="text-gray-600 mb-6">Tratamiento especializado de las encías.</p>
-          <ul class="space-y-4">
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Tratamiento de gingivitis</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Cirugía periodontal</span>
-            </li>
-            <li class="flex items-center text-gray-600">
-              <i class="fas fa-check text-green-500 mr-3"></i>
-              <span>Mantenimiento periodontal</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="tecnologia" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold text-center mb-16">Tecnología de Vanguardia</h2>
+  <section id="tecnologia" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Tecnología de Vanguardia</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto text-lg">Innovación y precisión en cada tratamiento</p>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div class="space-y-6">
-          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-            <h3 class="text-xl font-semibold mb-2">Radiografía Digital 3D</h3>
-            <p class="text-gray-600">Diagnóstico preciso y planificación detallada de tratamientos.</p>
+          <!-- Radiografía Digital 3D -->
+          <div class="group relative bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+            <div class="relative flex items-center space-x-4">
+              <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-x-ray text-xl text-blue-600"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-800">Radiografía Digital 3D</h3>
+                <p class="text-gray-600 mt-1">Diagnóstico preciso con imágenes tridimensionales de alta resolución.</p>
+              </div>
+            </div>
           </div>
-          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-            <h3 class="text-xl font-semibold mb-2">Escáner Intraoral</h3>
-            <p class="text-gray-600">Impresiones digitales para mayor precisión y comodidad.</p>
+
+          <!-- Escáner Intraoral -->
+          <div class="group relative bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+            <div class="relative flex items-center space-x-4">
+              <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-camera text-xl text-blue-600"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-800">Escáner Intraoral</h3>
+                <p class="text-gray-600 mt-1">Impresiones digitales precisas para mayor comodidad.</p>
+              </div>
+            </div>
           </div>
-          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-            <h3 class="text-xl font-semibold mb-2">Diseño Digital de Sonrisa</h3>
-            <p class="text-gray-600">Visualiza los resultados antes del tratamiento.</p>
+
+          <!-- Diseño Digital de Sonrisa -->
+          <div class="group relative bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+            <div class="relative flex items-center space-x-4">
+              <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-smile-beam text-xl text-blue-600"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-800">Diseño Digital de Sonrisa</h3>
+                <p class="text-gray-600 mt-1">Visualiza los resultados antes de comenzar el tratamiento.</p>
+              </div>
+            </div>
           </div>
-          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-            <h3 class="text-xl font-semibold mb-2">Microscopio Dental Digital</h3>
-            <p class="text-gray-600">Máxima precisión en tratamientos de conducto y microcirugías.</p>
+
+          <!-- Microscopio Dental Digital -->
+          <div class="group relative bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+            <div class="relative flex items-center space-x-4">
+              <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-microscope text-xl text-blue-600"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-800">Microscopio Dental Digital</h3>
+                <p class="text-gray-600 mt-1">Máxima precisión en tratamientos de conducto.</p>
+              </div>
+            </div>
           </div>
-          <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-            <h3 class="text-xl font-semibold mb-2">Impresora 3D Dental</h3>
-            <p class="text-gray-600">Fabricación de prótesis y guías quirúrgicas personalizadas.</p>
+
+          <!-- Impresora 3D Dental -->
+          <div class="group relative bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+            <div class="relative flex items-center space-x-4">
+              <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-print text-xl text-blue-600"></i>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-800">Impresora 3D Dental</h3>
+                <p class="text-gray-600 mt-1">Fabricación de prótesis personalizadas con tecnología 3D.</p>
+              </div>
+            </div>
           </div>
         </div>
+
         <div class="relative">
-          <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=800" 
+          <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-3xl transform rotate-3"></div>
+          <img src="img/instrumentos-dentales.jpg" 
                alt="Tecnología dental" 
-               class="rounded-lg shadow-2xl transform hover:rotate-2 transition duration-500">
-          <div class="absolute -bottom-4 -right-4 bg-blue-600 text-white p-4 rounded-lg">
-            <p class="text-sm font-semibold">Última tecnología en diagnóstico y tratamiento</p>
-          </div>
+               class="relative rounded-3xl shadow-2xl transform -rotate-3 transition-transform duration-500 hover:rotate-0">
         </div>
       </div>
     </div>
@@ -445,9 +622,12 @@
               <label class="block mb-1 text-sm">Motivo de la consulta</label>
               <textarea id="motivo" rows="3" class="w-full px-4 py-2 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-white placeholder-opacity-70 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" required></textarea>
             </div>
-            <button type="submit" class="w-full bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transform hover:scale-105 transition duration-300 flex items-center justify-center">
-              <i class="fas fa-calendar-check mr-2"></i>
-              Confirmar Turno
+            <button type="submit" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 w-full px-6 py-3 rounded-lg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+              <span class="relative z-10 flex items-center justify-center">
+                <i class="fas fa-calendar-check mr-2"></i>
+                Confirmar Turno
+              </span>
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </form>
         </div>
@@ -540,8 +720,9 @@
         </svg>
         <h3 class="text-2xl font-bold mb-2">¡Turno Confirmado!</h3>
         <p class="text-gray-600 mb-6">Te enviaremos un email con los detalles de tu turno y recordatorios previos a la cita.</p>
-        <button onclick="cerrarModal()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300">
-          Entendido
+        <button onclick="cerrarModal()" class="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-3 rounded-lg text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+          <span class="relative z-10">Entendido</span>
+          <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         </button>
       </div>
     </div>

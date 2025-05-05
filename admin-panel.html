@@ -7,53 +7,83 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="js/data.js"></script>
+    <style>
+        .nav-link {
+            @apply px-4 py-2 rounded-lg transition-all duration-200;
+        }
+        .nav-link:hover {
+            @apply bg-blue-700;
+        }
+        .nav-link.active {
+            @apply bg-blue-700;
+        }
+        .card {
+            @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300;
+        }
+        .card:hover {
+            @apply shadow-xl transform -translate-y-1;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <header class="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <div class="flex items-center space-x-4">
-            <h1 class="text-xl font-bold">Panel del Profesional</h1>
-            <nav class="hidden md:flex space-x-4">
-                <a href="#turnos" class="hover:text-blue-200">Turnos</a>
-                <a href="#disponibilidad" class="hover:text-blue-200">Disponibilidad</a>
-                <a href="#notas" class="hover:text-blue-200">Notas</a>
-            </nav>
-        </div>
-        <div class="flex items-center space-x-4">
-            <span class="hidden md:inline-block">
-                <i class="fas fa-user-md mr-2"></i><span id="adminName"></span>
-            </span>
-            <button onclick="logout()" class="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 flex items-center">
-                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
-            </button>
+<body class="bg-gray-50 min-h-screen">
+    <header class="bg-blue-600 text-white p-4 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-bold">Panel del Profesional</h1>
+                <nav class="hidden md:flex space-x-2">
+                    <a href="#turnos" class="nav-link active">
+                        <i class="fas fa-calendar-alt mr-2"></i>Turnos
+                    </a>
+                    <a href="#pacientes" class="nav-link">
+                        <i class="fas fa-users mr-2"></i>Pacientes
+                    </a>
+                    <a href="#disponibilidad" class="nav-link">
+                        <i class="fas fa-clock mr-2"></i>Disponibilidad
+                    </a>
+                    <a href="#notas" class="nav-link">
+                        <i class="fas fa-sticky-note mr-2"></i>Notas
+                    </a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="hidden md:inline-block bg-blue-700 px-4 py-2 rounded-lg">
+                    <i class="fas fa-user-md mr-2"></i><span id="adminName"></span>
+                </span>
+                <button onclick="logout()" class="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 flex items-center transition-all duration-200">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="p-6 max-w-6xl mx-auto">
+    <main class="p-6 max-w-7xl mx-auto">
         <section id="turnos" class="mb-10">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-semibold">Turnos programados</h2>
+                <h2 class="text-2xl font-semibold text-gray-800">Turnos programados</h2>
                 <div class="flex space-x-2">
-                    <button onclick="mostrarModalNuevoTurno()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    <button onclick="mostrarModalNuevoTurno()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center transition-all duration-200">
                         <i class="fas fa-plus mr-2"></i>Nuevo turno
                     </button>
-                    <input type="date" id="filterDate" class="border rounded px-3 py-1">
-                    <button onclick="filtrarTurnos()" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
-                        <i class="fas fa-filter mr-2"></i>Filtrar
-                    </button>
+                    <div class="flex items-center space-x-2 bg-white p-2 rounded-lg shadow">
+                        <input type="date" id="filterDate" class="border-0 focus:ring-0">
+                        <button onclick="filtrarTurnos()" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="overflow-x-auto bg-white rounded-lg shadow">
-                <table class="min-w-full text-left">
+            <div class="card overflow-hidden">
+                <table class="min-w-full">
                     <thead class="bg-blue-50">
                         <tr>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Nombre</th>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Fecha</th>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Hora</th>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Motivo</th>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Teléfono</th>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Estado</th>
-                            <th class="px-4 py-3 text-sm font-semibold text-gray-600">Acciones</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Motivo</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="turnosTableBody" class="divide-y divide-gray-200">
@@ -64,60 +94,61 @@
 
         <section id="pacientes" class="mb-10">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-semibold">Pacientes</h2>
+                <h2 class="text-2xl font-semibold text-gray-800">Pacientes</h2>
                 <div class="flex space-x-2">
-                    <input 
-                        type="text" 
-                        id="buscarPaciente" 
-                        placeholder="Buscar por nombre o DNI..." 
-                        class="border rounded px-3 py-2 w-64"
-                        oninput="buscarPacientes()"
-                    >
-                    <button onclick="mostrarModalNuevoPaciente()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="buscarPaciente" 
+                            placeholder="Buscar por nombre o DNI..." 
+                            class="pl-10 pr-4 py-2 border-0 rounded-lg shadow focus:ring-2 focus:ring-blue-500 w-64"
+                            oninput="buscarPacientes()"
+                        >
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button onclick="mostrarModalNuevoPaciente()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center transition-all duration-200">
                         <i class="fas fa-user-plus mr-2"></i>Nuevo paciente
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="pacientesGrid">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="pacientesGrid">
             </div>
         </section>
 
         <section id="disponibilidad" class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">Disponibilidad</h2>
-            <div class="bg-white p-6 rounded-lg shadow space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <h3 class="text-lg font-medium mb-3">Horarios disponibles</h3>
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <select id="diaSelect" class="border rounded px-3 py-2 w-full">
-                                    <option value="1">Lunes</option>
-                                    <option value="2">Martes</option>
-                                    <option value="3">Miércoles</option>
-                                    <option value="4">Jueves</option>
-                                    <option value="5">Viernes</option>
-                                </select>
-                                <input type="time" id="horaInicio" min="08:00" max="20:00" value="08:00" class="border rounded px-3 py-2">
-                                <input type="time" id="horaFin" min="08:00" max="20:00" value="20:00" class="border rounded px-3 py-2">
-                            </div>
-                            <div id="errorHorario" class="text-red-500 text-sm hidden">El horario debe estar entre las 8:00 y las 20:00</div>
-                            <button onclick="agregarHorario()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-                                <i class="fas fa-plus mr-2"></i>Agregar horario
-                            </button>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Disponibilidad</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-lg font-medium mb-4 text-gray-800">Horarios disponibles</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-2">
+                            <select id="diaSelect" class="flex-1 border-0 bg-gray-50 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                                <option value="1">Lunes</option>
+                                <option value="2">Martes</option>
+                                <option value="3">Miércoles</option>
+                                <option value="4">Jueves</option>
+                                <option value="5">Viernes</option>
+                            </select>
+                            <input type="time" id="horaInicio" min="08:00" max="20:00" value="08:00" class="border-0 bg-gray-50 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                            <input type="time" id="horaFin" min="08:00" max="20:00" value="20:00" class="border-0 bg-gray-50 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
                         </div>
-                        <div id="horariosActuales" class="mt-4">
-                        </div>
+                        <div id="errorHorario" class="text-red-500 text-sm hidden">El horario debe estar entre las 8:00 y las 20:00</div>
+                        <button onclick="agregarHorario()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center transition-all duration-200">
+                            <i class="fas fa-plus mr-2"></i>Agregar horario
+                        </button>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-medium mb-3">Días no laborables</h3>
-                        <div class="space-y-2">
-                            <input type="date" id="diaNoLaborable" class="border rounded px-3 py-2 w-full">
-                            <button onclick="marcarNoLaborable()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-                                <i class="fas fa-calendar-times mr-2"></i>Marcar como no laborable
-                            </button>
-                            <div id="diasNoLaborables" class="mt-4">
-                            </div>
+                    <div id="horariosActuales" class="mt-6 space-y-2">
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="text-lg font-medium mb-4 text-gray-800">Días no laborables</h3>
+                    <div class="space-y-4">
+                        <input type="date" id="diaNoLaborable" class="w-full border-0 bg-gray-50 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                        <button onclick="marcarNoLaborable()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center transition-all duration-200">
+                            <i class="fas fa-calendar-times mr-2"></i>Marcar como no laborable
+                        </button>
+                        <div id="diasNoLaborables" class="mt-6 space-y-2">
                         </div>
                     </div>
                 </div>
@@ -125,128 +156,101 @@
         </section>
 
         <section id="notas" class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4">Notas clínicas</h2>
-            <div class="bg-white p-6 rounded-lg shadow space-y-4">
-                <div class="flex space-x-2 mb-4">
-                    <input type="text" id="buscarPaciente" placeholder="Buscar paciente..." class="border rounded px-3 py-2 flex-1">
-                    <button onclick="buscarNotas()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Notas clínicas</h2>
+            <div class="card">
+                <div class="flex space-x-2 mb-6">
+                    <div class="relative flex-1">
+                        <input type="text" id="buscarPaciente" placeholder="Buscar paciente..." class="w-full pl-10 pr-4 py-2 border-0 bg-gray-50 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button onclick="buscarNotas()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center transition-all duration-200">
                         <i class="fas fa-search mr-2"></i>Buscar
                     </button>
                 </div>
-                <div id="notasList" class="space-y-4">
+                <div id="notasList" class="space-y-4 mb-6">
                 </div>
                 <div class="space-y-4">
                     <textarea 
                         id="nuevaNota"
-                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                        class="w-full border-0 bg-gray-50 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500" 
                         placeholder="Escribe observaciones del paciente..." 
                         rows="5"
                     ></textarea>
                     <div class="flex justify-between items-center">
                         <div class="space-x-2">
                             <input type="file" id="adjuntoInput" class="hidden">
-                            <button onclick="document.getElementById('adjuntoInput').click()" class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-300">
-                                <i class="fas fa-paperclip mr-1"></i>Adjuntar
+                            <button onclick="document.getElementById('adjuntoInput').click()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 flex items-center transition-all duration-200">
+                                <i class="fas fa-paperclip mr-2"></i>Adjuntar
                             </button>
                             <span id="nombreArchivo" class="text-sm text-gray-500"></span>
                         </div>
-                        <button onclick="guardarNota()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        <button onclick="guardarNota()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center transition-all duration-200">
                             <i class="fas fa-save mr-2"></i>Guardar nota
                         </button>
                     </div>
                 </div>
             </div>
         </section>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <h2 class="text-2xl font-bold mb-6 flex items-center">
-                <i class="fas fa-chart-line text-blue-600 mr-2"></i>
-                Dashboard Avanzado
-            </h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-lg text-white">
-                    <h3 class="text-lg font-semibold mb-2">Tasa de Ocupación</h3>
-                    <p class="text-3xl font-bold" id="tasaOcupacion">--%</p>
-                    <p class="text-sm opacity-80">Promedio diario</p>
-                </div>
-                <div class="bg-gradient-to-br from-green-500 to-green-600 p-4 rounded-lg text-white">
-                    <h3 class="text-lg font-semibold mb-2">Eficiencia</h3>
-                    <p class="text-3xl font-bold" id="eficienciaTotal">--%</p>
-                    <p class="text-sm opacity-80">Tasa de completación</p>
-                </div>
-                <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-4 rounded-lg text-white">
-                    <h3 class="text-lg font-semibold mb-2">Tiempo de Espera</h3>
-                    <p class="text-3xl font-bold" id="tiempoEspera">-- días</p>
-                    <p class="text-sm opacity-80">Promedio</p>
-                </div>
-                <div class="bg-gradient-to-br from-red-500 to-red-600 p-4 rounded-lg text-white">
-                    <h3 class="text-lg font-semibold mb-2">Cancelaciones</h3>
-                    <p class="text-3xl font-bold" id="tasaCancelacion">--%</p>
-                    <p class="text-sm opacity-80">Último mes</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4">Tendencias de Crecimiento</h3>
-                    <canvas id="graficoCrecimiento" class="w-full"></canvas>
-                </div>
-                
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4">Distribución Horaria</h3>
-                    <canvas id="graficoDistribucion" class="w-full"></canvas>
-                </div>
-                
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4">Distribución por Obra Social</h3>
-                    <canvas id="graficoObrasSociales" class="w-full"></canvas>
-                </div>
-                
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-semibold mb-4">Predicción de Demanda</h3>
-                    <canvas id="graficoPredicciones" class="w-full"></canvas>
-                </div>
-            </div>
-
-            <div class="mt-8 bg-blue-50 p-4 rounded-lg">
-                <h3 class="text-lg font-semibold mb-4 flex items-center">
-                    <i class="fas fa-lightbulb text-blue-600 mr-2"></i>
-                    Recomendaciones Inteligentes
-                </h3>
-                <div id="recomendaciones" class="space-y-2">
-                </div>
-            </div>
-        </div>
     </main>
 
     <div id="modalNuevoTurno" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
         <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto mt-20">
             <h3 class="text-xl font-semibold mb-4">Nuevo Turno</h3>
             <form id="formNuevoTurno" onsubmit="guardarNuevoTurno(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Paciente</label>
-                    <select id="pacienteSelect" required class="w-full border rounded px-3 py-2">
-                        <option value="">Seleccionar paciente...</option>
-                    </select>
+                <div class="flex items-center space-x-2 mb-4">
+                    <input type="radio" id="pacienteExistente" name="tipoPaciente" value="existente" checked onchange="actualizarTipoPaciente()" class="form-radio text-blue-600">
+                    <label for="pacienteExistente" class="text-gray-700">Paciente existente</label>
+                    <input type="radio" id="pacienteNuevo" name="tipoPaciente" value="nuevo" onchange="actualizarTipoPaciente()" class="form-radio text-blue-600 ml-4">
+                    <label for="pacienteNuevo" class="text-gray-700">Paciente nuevo</label>
                 </div>
+
+                <div id="pacienteExistenteContainer">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Paciente</label>
+                        <select id="pacienteSelect" required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                            <option value="">Seleccionar paciente...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="pacienteNuevoContainer" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                        <input type="text" id="nuevoNombrePaciente" class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+                        <input type="text" id="nuevoDniPaciente" class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                        <input type="tel" id="nuevoTelefonoPaciente" class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="nuevoEmailPaciente" class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
-                    <input type="date" id="fechaTurno" required class="w-full border rounded px-3 py-2">
+                    <input type="date" id="fechaTurno" required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Hora</label>
-                    <input type="time" id="horaTurno" required class="w-full border rounded px-3 py-2" step="300">
+                    <select id="horaTurno" required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                        <option value="">Seleccionar hora...</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
-                    <input type="text" id="motivoTurno" required class="w-full border rounded px-3 py-2">
+                    <input type="text" id="motivoTurno" required class="w-full border-2 border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="flex justify-end space-x-2">
-                    <button type="button" onclick="cerrarModalNuevoTurno()" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">
+                    <button type="button" onclick="cerrarModalNuevoTurno()" class="px-4 py-2 border-2 border-gray-300 rounded-lg text-gray-600 hover:bg-gray-100">
                         Cancelar
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                         Guardar
                     </button>
                 </div>
@@ -364,6 +368,55 @@
         </div>
     </div>
 
+    <div id="modalDetallesPaciente" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto mt-20">
+            <h3 class="text-xl font-semibold mb-4">Detalles del Paciente</h3>
+            <form id="formDetallesPaciente" onsubmit="guardarDetallesPaciente(event)" class="space-y-4">
+                <input type="hidden" id="detallesPacienteId">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                    <input type="text" id="detallesNombrePaciente" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+                    <input type="text" id="detallesDniPaciente" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                    <input type="tel" id="detallesTelefonoPaciente" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="detallesEmailPaciente" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Obra Social</label>
+                    <select id="detallesObraSocialPaciente" onchange="actualizarPlanesDetalles()" class="w-full border rounded px-3 py-2">
+                        <option value="">Sin obra social</option>
+                    </select>
+                </div>
+                <div id="detallesPlanContainer" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Plan</label>
+                    <select id="detallesPlanObraSocial" class="w-full border rounded px-3 py-2">
+                        <option value="">Seleccionar plan...</option>
+                    </select>
+                </div>
+                <div id="detallesNumeroSocioContainer" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Número de Socio</label>
+                    <input type="text" id="detallesNumeroSocio" class="w-full border rounded px-3 py-2">
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="cerrarModalDetallesPaciente()" class="px-4 py-2 border rounded text-gray-600 hover:bg-gray-100">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -377,11 +430,14 @@
         document.getElementById('horaTurno').setAttribute('min', '08:00');
         document.getElementById('horaTurno').setAttribute('max', '20:00');
 
+        // Inicializar variables globales
+        window.dbPacientes = pacientes || [];
+        window.dbTurnos = turnos || [];
+
         actualizarTablaTurnos();
         actualizarListaPacientes();
         cargarSelectPacientes();
         cargarObrasSociales();
-        actualizarDashboard();
     });
 
     function actualizarTablaTurnos() {
@@ -395,7 +451,7 @@
             const tr = document.createElement('tr');
             tr.className = 'hover:bg-gray-50';
             tr.innerHTML = `
-                <td class="px-4 py-3">
+                <td class="px-6 py-3">
                     <div class="flex items-center">
                         <img class="h-8 w-8 rounded-full mr-3" 
                             src="https://ui-avatars.com/api/?name=${encodeURIComponent(paciente.nombre)}" 
@@ -403,20 +459,20 @@
                         <span>${paciente.nombre}</span>
                     </div>
                 </td>
-                <td class="px-4 py-3">${turno.fecha}</td>
-                <td class="px-4 py-3">${turno.hora}</td>
-                <td class="px-4 py-3">${turno.motivo}</td>
-                <td class="px-4 py-3">
+                <td class="px-6 py-3">${turno.fecha}</td>
+                <td class="px-6 py-3">${turno.hora}</td>
+                <td class="px-6 py-3">${turno.motivo}</td>
+                <td class="px-6 py-3">
                     <a href="tel:${paciente.telefono}" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-phone-alt mr-1"></i>${paciente.telefono}
                     </a>
                 </td>
-                <td class="px-4 py-3">
+                <td class="px-6 py-3">
                     <span class="px-2 py-1 text-xs rounded-full ${getEstadoClase(turno.estado)}">
                         ${turno.estado}
                     </span>
                 </td>
-                <td class="px-4 py-3 space-x-2">
+                <td class="px-6 py-3 space-x-2">
                     ${turno.estado === 'pendiente' ? `
                         <button onclick="cambiarEstado(${turno.id}, 'confirmado')" 
                             class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
@@ -460,7 +516,7 @@
         const grid = document.getElementById('pacientesGrid');
         grid.innerHTML = '';
 
-        dbPacientes.forEach(paciente => {
+        window.dbPacientes.forEach(paciente => {
             const div = document.createElement('div');
             div.className = 'bg-white rounded-lg shadow p-4';
             div.innerHTML = `
@@ -526,8 +582,95 @@
     function mostrarModalNuevoTurno(pacienteId = null) {
         document.getElementById('modalNuevoTurno').classList.remove('hidden');
         if (pacienteId) {
+            document.getElementById('pacienteExistente').checked = true;
             document.getElementById('pacienteSelect').value = pacienteId;
+            actualizarTipoPaciente();
         }
+        actualizarHorasDisponibles();
+    }
+
+    function actualizarTipoPaciente() {
+        const tipoPaciente = document.querySelector('input[name="tipoPaciente"]:checked').value;
+        const existenteContainer = document.getElementById('pacienteExistenteContainer');
+        const nuevoContainer = document.getElementById('pacienteNuevoContainer');
+        const pacienteSelect = document.getElementById('pacienteSelect');
+        const nuevoNombrePaciente = document.getElementById('nuevoNombrePaciente');
+        const nuevoDniPaciente = document.getElementById('nuevoDniPaciente');
+        const nuevoTelefonoPaciente = document.getElementById('nuevoTelefonoPaciente');
+        const nuevoEmailPaciente = document.getElementById('nuevoEmailPaciente');
+
+        if (tipoPaciente === 'existente') {
+            existenteContainer.classList.remove('hidden');
+            nuevoContainer.classList.add('hidden');
+            pacienteSelect.required = true;
+            nuevoNombrePaciente.required = false;
+            nuevoDniPaciente.required = false;
+            nuevoTelefonoPaciente.required = false;
+            nuevoEmailPaciente.required = false;
+        } else {
+            existenteContainer.classList.add('hidden');
+            nuevoContainer.classList.remove('hidden');
+            pacienteSelect.required = false;
+            nuevoNombrePaciente.required = true;
+            nuevoDniPaciente.required = true;
+            nuevoTelefonoPaciente.required = true;
+            nuevoEmailPaciente.required = true;
+        }
+    }
+
+    function actualizarHorasDisponibles() {
+        const horaSelect = document.getElementById('horaTurno');
+        horaSelect.innerHTML = '<option value="">Seleccionar hora...</option>';
+        
+        // Generar opciones de hora cada 30 minutos desde las 8:00 hasta las 20:00
+        for (let hora = 8; hora < 20; hora++) {
+            for (let minuto = 0; minuto < 60; minuto += 30) {
+                const horaStr = hora.toString().padStart(2, '0');
+                const minutoStr = minuto.toString().padStart(2, '0');
+                const option = document.createElement('option');
+                option.value = `${horaStr}:${minutoStr}`;
+                option.textContent = `${horaStr}:${minutoStr}`;
+                horaSelect.appendChild(option);
+            }
+        }
+    }
+
+    function guardarNuevoTurno(event) {
+        event.preventDefault();
+        
+        const tipoPaciente = document.querySelector('input[name="tipoPaciente"]:checked').value;
+        let pacienteId;
+
+        if (tipoPaciente === 'existente') {
+            pacienteId = parseInt(document.getElementById('pacienteSelect').value);
+        } else {
+            // Crear nuevo paciente
+            const nuevoPaciente = {
+                id: window.dbPacientes.length + 1,
+                nombre: document.getElementById('nuevoNombrePaciente').value,
+                dni: document.getElementById('nuevoDniPaciente').value,
+                telefono: document.getElementById('nuevoTelefonoPaciente').value,
+                email: document.getElementById('nuevoEmailPaciente').value,
+                historial: [],
+                ultimaVisita: null,
+                proximoTurno: null
+            };
+            
+            window.dbPacientes.push(nuevoPaciente);
+            pacienteId = nuevoPaciente.id;
+        }
+
+        const turno = {
+            pacienteId: pacienteId,
+            fecha: document.getElementById('fechaTurno').value,
+            hora: document.getElementById('horaTurno').value,
+            motivo: document.getElementById('motivoTurno').value,
+            estado: 'pendiente'
+        };
+        
+        window.dbTurnos.push(turno);
+        actualizarTablaTurnos();
+        cerrarModalNuevoTurno();
     }
 
     function cerrarModalNuevoTurno() {
@@ -537,6 +680,7 @@
 
     function mostrarModalNuevoPaciente() {
         document.getElementById('modalNuevoPaciente').classList.remove('hidden');
+        cargarObrasSociales();
     }
 
     function cerrarModalNuevoPaciente() {
@@ -552,43 +696,46 @@
         document.getElementById('modalHistorial').classList.add('hidden');
     }
 
-    function guardarNuevoTurno(event) {
-        event.preventDefault();
-        const turno = {
-            pacienteId: parseInt(document.getElementById('pacienteSelect').value),
-            fecha: document.getElementById('fechaTurno').value,
-            hora: document.getElementById('horaTurno').value,
-            motivo: document.getElementById('motivoTurno').value,
-            estado: 'pendiente'
-        };
-        
-        agregarTurno(turno);
-        actualizarTablaTurnos();
-        cerrarModalNuevoTurno();
-    }
-
     function guardarNuevoPaciente(event) {
         event.preventDefault();
+        
+        const nombre = document.getElementById('nombrePaciente').value;
+        const dni = document.getElementById('dniPaciente').value;
+        const telefono = document.getElementById('telefonoPaciente').value;
+        const email = document.getElementById('emailPaciente').value;
         const obraSocial = document.getElementById('obraSocialPaciente').value;
         const plan = document.getElementById('planObraSocial').value;
         const numeroSocio = document.getElementById('numeroSocio').value;
 
+        if (!nombre || !dni || !telefono || !email) {
+            mostrarMensajeError('Por favor, complete todos los campos requeridos');
+            return;
+        }
+
         const paciente = {
-            nombre: document.getElementById('nombrePaciente').value,
-            dni: document.getElementById('dniPaciente').value,
-            telefono: document.getElementById('telefonoPaciente').value,
-            email: document.getElementById('emailPaciente').value,
+            id: window.dbPacientes.length + 1,
+            nombre: nombre,
+            dni: dni,
+            telefono: telefono,
+            email: email,
             obraSocial: obraSocial ? {
                 nombre: obraSocial,
                 plan: plan,
                 numeroSocio: numeroSocio
-            } : null
+            } : null,
+            historial: [],
+            ultimaVisita: null,
+            proximoTurno: null
         };
-        
-        agregarPaciente(paciente);
-        actualizarListaPacientes();
-        cargarSelectPacientes();
-        cerrarModalNuevoPaciente();
+
+        try {
+            window.dbPacientes.push(paciente);
+            actualizarListaPacientes();
+            cerrarModalNuevoPaciente();
+            mostrarMensajeExito('Paciente agregado correctamente');
+        } catch (error) {
+            mostrarMensajeError(error.message);
+        }
     }
 
     function cargarSelectPacientes() {
@@ -650,14 +797,17 @@
 
     function cargarObrasSociales() {
         const select = document.getElementById('obraSocialPaciente');
-        select.innerHTML = '<option value="">Sin obra social</option>';
+        const selectEdit = document.getElementById('editObraSocialPaciente');
+        const selectDetalles = document.getElementById('detallesObraSocialPaciente');
         
+        const opciones = ['<option value="">Sin obra social</option>'];
         getObrasSociales().forEach(os => {
-            const option = document.createElement('option');
-            option.value = os.nombre;
-            option.textContent = os.nombre;
-            select.appendChild(option);
+            opciones.push(`<option value="${os.nombre}">${os.nombre}</option>`);
         });
+        
+        select.innerHTML = opciones.join('');
+        if (selectEdit) selectEdit.innerHTML = opciones.join('');
+        if (selectDetalles) selectDetalles.innerHTML = opciones.join('');
     }
 
     function actualizarPlanes() {
@@ -672,7 +822,7 @@
             planes.forEach(plan => {
                 const option = document.createElement('option');
                 option.value = plan;
-                option.textContent = `Plan ${plan}`;
+                option.textContent = plan;
                 planSelect.appendChild(option);
             });
             
@@ -689,143 +839,6 @@
         localStorage.removeItem('remember');
         localStorage.removeItem('adminName');
         window.location.href = 'admin-login.html';
-    }
-
-    function actualizarDashboard() {
-        const analisis = getAnalisisAvanzado();
-        const ultimosMeses = obtenerUltimosMeses(6);
-        
-        document.getElementById('tasaOcupacion').textContent = 
-            `${analisis.rendimiento.tasaOcupacion.porcentajeOcupacion}%`;
-        document.getElementById('eficienciaTotal').textContent = 
-            `${analisis.rendimiento.eficienciaAgenda.eficienciaTotal}%`;
-        document.getElementById('tiempoEspera').textContent = 
-            `${analisis.rendimiento.tiemposEspera.promedio} días`;
-        document.getElementById('tasaCancelacion').textContent = 
-            `${analisis.rendimiento.eficienciaAgenda.tasaCancelacion}%`;
-
-        const ctxCrecimiento = document.getElementById('graficoCrecimiento').getContext('2d');
-        new Chart(ctxCrecimiento, {
-            type: 'line',
-            data: {
-                labels: ultimosMeses.map(m => m.mes),
-                datasets: [{
-                    label: 'Nuevos Pacientes',
-                    data: ultimosMeses.map(m => calcularFrecuenciaVisitasPorPerfil()[m.mes]?.nuevos || 0),
-                    borderColor: 'rgb(59, 130, 246)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        const ctxDistribucion = document.getElementById('graficoDistribucion').getContext('2d');
-        const distribucionData = analisis.rendimiento.distribucionCarga.distribucionHoraria;
-        new Chart(ctxDistribucion, {
-            type: 'bar',
-            data: {
-                labels: Object.keys(distribucionData),
-                datasets: [{
-                    label: 'Turnos por Hora',
-                    data: Object.values(distribucionData),
-                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
-                    borderColor: 'rgb(59, 130, 246)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        const ctxObrasSociales = document.getElementById('graficoObrasSociales').getContext('2d');
-        const distribucionOS = calcularDistribucionOSPorMes(ultimosMeses[0]);
-        new Chart(ctxObrasSociales, {
-            type: 'pie',
-            data: {
-                labels: Object.keys(distribucionOS),
-                datasets: [{
-                    data: Object.values(distribucionOS),
-                    backgroundColor: [
-                        'rgba(59, 130, 246, 0.8)',
-                        'rgba(16, 185, 129, 0.8)',
-                        'rgba(245, 158, 11, 0.8)',
-                        'rgba(239, 68, 68, 0.8)',
-                        'rgba(139, 92, 246, 0.8)'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    }
-                }
-            }
-        });
-
-        const ctxPredicciones = document.getElementById('graficoPredicciones').getContext('2d');
-        const prediccionData = analisis.tendencias.prediccionDemanda;
-        new Chart(ctxPredicciones, {
-            type: 'line',
-            data: {
-                labels: prediccionData.map(p => p.periodo),
-                datasets: [{
-                    label: 'Demanda Prevista',
-                    data: prediccionData.map(p => p.demandaPrevista),
-                    borderColor: 'rgb(16, 185, 129)',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        const recomendacionesContainer = document.getElementById('recomendaciones');
-        recomendacionesContainer.innerHTML = '';
-        
-        const turnosHoy = turnos.filter(t => t.fecha === new Date().toISOString().split('T')[0]);
-        const probCancelacion = calcularProbabilidadCancelacion(turnosHoy);
-        
-        const recomendaciones = [
-            `Probabilidad de cancelación para hoy: ${probCancelacion}%`,
-            ...analisis.rendimiento.distribucionCarga.recomendaciones
-        ];
-
-        recomendaciones.forEach(rec => {
-            const div = document.createElement('div');
-            div.className = 'flex items-center text-blue-700 mb-2';
-            div.innerHTML = `
-                <i class="fas fa-info-circle mr-2"></i>
-                <span>${rec}</span>
-            `;
-            recomendacionesContainer.appendChild(div);
-        });
     }
 
     function editarPaciente(pacienteId) {
@@ -910,6 +923,106 @@
         actualizarPaciente(pacienteId, pacienteActualizado);
         actualizarListaPacientes();
         cerrarModalEditarPaciente();
+    }
+
+    function mostrarDetallesPaciente(pacienteId) {
+        const paciente = getPaciente(pacienteId);
+        if (!paciente) return;
+
+        document.getElementById('detallesPacienteId').value = paciente.id;
+        document.getElementById('detallesNombrePaciente').value = paciente.nombre;
+        document.getElementById('detallesDniPaciente').value = paciente.dni;
+        document.getElementById('detallesTelefonoPaciente').value = paciente.telefono;
+        document.getElementById('detallesEmailPaciente').value = paciente.email;
+        
+        const selectOS = document.getElementById('detallesObraSocialPaciente');
+        selectOS.innerHTML = '<option value="">Sin obra social</option>';
+        getObrasSociales().forEach(os => {
+            const option = document.createElement('option');
+            option.value = os.nombre;
+            option.textContent = os.nombre;
+            selectOS.appendChild(option);
+        });
+
+        if (paciente.obraSocial) {
+            selectOS.value = paciente.obraSocial.nombre;
+            actualizarPlanesDetalles();
+            setTimeout(() => {
+                document.getElementById('detallesPlanObraSocial').value = paciente.obraSocial.plan;
+                document.getElementById('detallesNumeroSocio').value = paciente.obraSocial.numeroSocio;
+            }, 100);
+        }
+
+        document.getElementById('modalDetallesPaciente').classList.remove('hidden');
+    }
+
+    function cerrarModalDetallesPaciente() {
+        document.getElementById('modalDetallesPaciente').classList.add('hidden');
+        document.getElementById('formDetallesPaciente').reset();
+    }
+
+    function actualizarPlanesDetalles() {
+        const obraSocial = document.getElementById('detallesObraSocialPaciente').value;
+        const planContainer = document.getElementById('detallesPlanContainer');
+        const numeroSocioContainer = document.getElementById('detallesNumeroSocioContainer');
+        const planSelect = document.getElementById('detallesPlanObraSocial');
+
+        if (obraSocial) {
+            planContainer.classList.remove('hidden');
+            numeroSocioContainer.classList.remove('hidden');
+            planSelect.innerHTML = '<option value="">Seleccionar plan...</option>';
+            getPlanesObraSocial(obraSocial).forEach(plan => {
+                const option = document.createElement('option');
+                option.value = plan;
+                option.textContent = plan;
+                planSelect.appendChild(option);
+            });
+        } else {
+            planContainer.classList.add('hidden');
+            numeroSocioContainer.classList.add('hidden');
+        }
+    }
+
+    function guardarDetallesPaciente(event) {
+        event.preventDefault();
+        
+        const pacienteId = document.getElementById('detallesPacienteId').value;
+        const datosPaciente = {
+            nombre: document.getElementById('detallesNombrePaciente').value,
+            dni: document.getElementById('detallesDniPaciente').value,
+            telefono: document.getElementById('detallesTelefonoPaciente').value,
+            email: document.getElementById('detallesEmailPaciente').value,
+            obraSocial: document.getElementById('detallesObraSocialPaciente').value ? {
+                nombre: document.getElementById('detallesObraSocialPaciente').value,
+                plan: document.getElementById('detallesPlanObraSocial').value,
+                numeroSocio: document.getElementById('detallesNumeroSocio').value
+            } : null
+        };
+
+        try {
+            actualizarPaciente(pacienteId, datosPaciente);
+            cerrarModalDetallesPaciente();
+            actualizarListaPacientes();
+            mostrarMensajeExito('Paciente actualizado correctamente');
+        } catch (error) {
+            mostrarMensajeError(error.message);
+        }
+    }
+
+    function mostrarMensajeError(mensaje) {
+        const mensajeElement = document.createElement('div');
+        mensajeElement.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-lg';
+        mensajeElement.textContent = mensaje;
+        document.body.appendChild(mensajeElement);
+        setTimeout(() => mensajeElement.remove(), 3000);
+    }
+
+    function mostrarMensajeExito(mensaje) {
+        const mensajeElement = document.createElement('div');
+        mensajeElement.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg';
+        mensajeElement.textContent = mensaje;
+        document.body.appendChild(mensajeElement);
+        setTimeout(() => mensajeElement.remove(), 3000);
     }
     </script>
 </body>
